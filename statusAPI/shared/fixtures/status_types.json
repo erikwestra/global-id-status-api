@@ -1,0 +1,18 @@
+[
+    {
+        "model": "shared.StatusUpdateType",
+        "pk": 1,
+        "fields": {
+            "type" : "availability/text",
+            "description": "Is the owner of this global ID available for work?"
+        }
+    },
+    {
+        "model": "shared.StatusUpdateType",
+        "pk": 2,
+        "fields": {
+            "type" : "location/latlong",
+            "description": "The global ID's current location"
+        }
+    }
+]
