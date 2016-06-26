@@ -63,7 +63,7 @@ def get_status(request, global_id):
 
     if "since" in request.GET and request.GET['since'] != "ALL":
         try:
-            param_since = utils.timestamp_to_datetime(requests.GET['since'])
+            param_since = utils.timestamp_to_datetime(request.GET['since'])
         except ValueError:
             return HttpResponseBadRequest("Invalid 'since' value")
     else:
