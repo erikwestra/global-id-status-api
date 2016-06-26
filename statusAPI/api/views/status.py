@@ -3,6 +3,7 @@
     This module implements the /status endpoint for the Status API.
 """
 import json
+import traceback
 
 from django.http import (HttpResponseNotAllowed, HttpResponseForbidden,
                          HttpResponseBadRequest, HttpResponse, JsonResponse)
@@ -18,12 +19,16 @@ from statusAPI.shared.lib    import hmac, utils
 def status(request, global_id):
     """ Respond to the "<global_id>/status" endpoint.
     """
-    if request.method == "GET":
-        return get_status(request, global_id)
-    elif request.method == "POST":
-        return post_status(request, global_id)
-    else:
-        return HttpResponseNotAllowed(["GET", "POST"])
+    try:
+        if request.method == "GET":
+            return get_status(request, global_id)
+        elif request.method == "POST":
+            return post_status(request, global_id)
+        else:
+            return HttpResponseNotAllowed(["GET", "POST"])
+    except:
+        traceback.print_exc()
+        raise
 
 #############################################################################
 
