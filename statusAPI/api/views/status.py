@@ -104,7 +104,10 @@ def get_status(request, global_id):
     # Calculate the 'since' value to use for retrieving only the new updates.
 
     if latest == None:
-        since = "ALL"
+        if param_since == None:
+            since = "ALL"
+        else:
+            since = utils.datetime_to_timestamp(param_since)
     else:
         since = utils.datetime_to_timestamp(latest)
 
