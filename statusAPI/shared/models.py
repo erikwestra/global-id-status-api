@@ -48,13 +48,23 @@ class StatusUpdateType(models.Model):
 class StatusUpdate(models.Model):
     """ A posted status update.
 
-        Note that we keen these status updates forever, forming a history of
+        Note that we keep these status updates forever, forming a history of
         the various status updates posted over time.
+
+        TIME ZONES
+        ----------
+
+        The 'timestamp' field stores the date and time at which the status
+        update was made, in UTC.  We separately store the timezone offset (in
+        minutes) in the 'tz_offset' field so we can recreate the original
+        timestamp, including the submitted timezone offset, whenever we need to
+        get the original (unconverted) timestamp.
     """
     id        = models.AutoField(primary_key=True)
     global_id = models.ForeignKey(GlobalID)
     type      = models.ForeignKey(StatusUpdateType)
     timestamp = models.DateTimeField(db_index=True)
+    tz_offset = models.IntegerField()
     contents  = models.TextField()
 
 #############################################################################
@@ -109,6 +119,7 @@ class CurrentStatusUpdateView(models.Model):
     status_update       = models.ForeignKey(StatusUpdate)
     type                = models.ForeignKey(StatusUpdateType)
     timestamp           = models.DateTimeField()
+    tz_offset           = models.IntegerField()
     contents            = models.TextField()
 
 #############################################################################

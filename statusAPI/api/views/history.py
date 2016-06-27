@@ -96,10 +96,12 @@ def history(request, global_id):
     else:
         updates = []
         for update in paginator.page(page_num):
+            date_time = utils.utc_and_timezone_to_datetime(update.timestamp,
+                                                           update.tz_offset)
             updates.append(
                 {'global_id' : update.global_id.global_id,
                  'type'      : update.type.type,
-                 'timestamp' : utils.datetime_to_timestamp(update.timestamp),
+                 'timestamp' : utils.datetime_to_timestamp(date_time),
                  'contents'  : update.contents})
 
         if page_num < paginator.num_pages:

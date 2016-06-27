@@ -37,6 +37,7 @@ class HistoryTestCase(TestCase):
         status_update.global_id = global_id
         status_update.type      = status_type
         status_update.timestamp = now - datetime.timedelta(seconds=1)
+        status_update.tz_offset = 0
         status_update.contents  = contents_1
         status_update.save()
 
@@ -44,6 +45,7 @@ class HistoryTestCase(TestCase):
         status_update.global_id = global_id
         status_update.type      = status_type
         status_update.timestamp = now
+        status_update.tz_offset = 0
         status_update.contents  = contents_2
         status_update.save()
 
@@ -114,6 +116,7 @@ class HistoryTestCase(TestCase):
         status_update.global_id = global_id_1
         status_update.type      = status_type
         status_update.timestamp = now - datetime.timedelta(seconds=1)
+        status_update.tz_offset = 0
         status_update.contents  = contents_1
         status_update.save()
 
@@ -121,6 +124,7 @@ class HistoryTestCase(TestCase):
         status_update.global_id = global_id_1
         status_update.type      = status_type
         status_update.timestamp = now
+        status_update.tz_offset = 0
         status_update.contents  = contents_2
         status_update.save()
 

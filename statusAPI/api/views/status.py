@@ -93,10 +93,12 @@ def get_status(request, global_id):
     updates = []
     latest  = None
     for view in query:
+        date_time = utils.utc_and_timezone_to_datetime(view.timestamp,
+                                                       view.tz_offset)
         updates.append(
                 {'global_id' : view.issuing_global_id.global_id,
                  'type'      : view.type.type,
-                 'timestamp' : utils.datetime_to_timestamp(view.timestamp),
+                 'timestamp' : utils.datetime_to_timestamp(date_time),
                  'contents'  : view.contents})
         if latest == None or view.timestamp > latest:
             latest = view.timestamp
@@ -195,10 +197,13 @@ def post_status(request, global_id):
 
     # Create the status update itself.
 
+    utc_datetime,tz_offset = utils.datetime_to_utc_and_timezone(timestamp)
+
     update = StatusUpdate()
     update.global_id = access_id.global_id
     update.type      = status_update_type
-    update.timestamp = timestamp
+    update.timestamp = utc_datetime
+    update.tz_offset = tz_offset
     update.contents  = status_contents
     update.save()
 
@@ -227,7 +232,8 @@ def post_status(request, global_id):
             view.recipient_global_id = permission.recipient_global_id
             view.status_update       = update
             view.type                = status_update_type
-            view.timestamp           = timestamp
+            view.timestamp           = utc_datetime
+            view.tz_offset           = tz_offset
             view.contents            = status_contents
             view.save()
 

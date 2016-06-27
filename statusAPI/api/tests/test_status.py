@@ -106,6 +106,7 @@ class StatusTestCase(TestCase):
         status_update.global_id = global_id_1
         status_update.type      = status_type
         status_update.timestamp = now
+        status_update.tz_offset = 0
         status_update.contents  = contents
         status_update.save()
 
@@ -115,6 +116,7 @@ class StatusTestCase(TestCase):
         view.status_update       = status_update
         view.type                = status_type
         view.timestamp           = now
+        view.tz_offset           = 0
         view.contents            = contents
         view.save()
 
