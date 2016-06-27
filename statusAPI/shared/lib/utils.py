@@ -38,7 +38,7 @@ def datetime_to_timestamp(date_time):
         'date_time' should be a datetime.datetime object with the appropriate
         timezone set.  We convert this value to a string in RFC-3339 format.
     """
-    return date_time.astimezone().isoformat()
+    return date_time.isoformat()
 
 #############################################################################
 
