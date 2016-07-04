@@ -114,7 +114,7 @@ def delete_access(request):
     params = urllib.parse.parse_qs(request.META['QUERY_STRING'])
 
     if "global_id" in params:
-        params = request_data['global_id']
+        global_id = params['global_id']
     else:
         return HttpResponseBadRequest()
 
