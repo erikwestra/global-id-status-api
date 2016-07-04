@@ -110,18 +110,12 @@ def delete_access(request):
     """
     # Get the submitted request parameters.
 
-    if request.META['CONTENT_TYPE'] != "application/json":
-        return HttpResponse(status=415) # Unsupported media type.
+    params = urllib.parse.parse_qs(request.META['QUERY_STRING'])
 
-    try:
-        request_data = json.loads(request.body.decode("utf-8"))
-    except ValueError:
-        return HttpResponseBadRequest("Invalid JSON request")
-
-    if "global_id" in request_data:
-        global_id = request_data['global_id']
+    if "global_id" in params:
+        params = request_data['global_id']
     else:
-        return HttpResponseBadRequest("Invalid JSON request")
+        return HttpResponseBadRequest()
 
     # Delete the existing access credentials for this global ID, if it exists.
 
