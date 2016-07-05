@@ -59,11 +59,16 @@ def post_access(request):
     else:
         return HttpResponseBadRequest("Invalid JSON request")
 
+    # Get the GlobalID object for the supplied global ID, creating one if
+    # necessary.
+
+    global_id_rec,created = GlobalID.objects.get_or_create(global_id=global_id)
+
     # If we have an existing AccessID record with the same global ID and device
     # ID, return the previously-calculated values.
 
     try:
-        access_id = AccessID.objects.get(global_id__global_id=global_id,
+        access_id = AccessID.objects.get(global_id=global_id_rec,
                                          device_id=device_id)
     except AccessID.DoesNotExist:
         access_id = None
@@ -75,10 +80,10 @@ def post_access(request):
                            
 
     # If we have an existing AccessID record with that global ID but a
-    # different device ID, we block this for the time being.
+    # different device ID, we block this.
 
     try:
-        access_id = AccessID.objects.get(global_id__global_id=global_id)
+        access_id = AccessID.objects.get(global_id=global_id_rec)
     except AccessID.DoesNotExist:
         access_id = None
 
@@ -86,8 +91,6 @@ def post_access(request):
         return HttpResponseForbidden()
 
     # If we get here, we are creating a new access ID for this user.  Do so.
-
-    global_id_rec,created = GlobalID.objects.get_or_create(global_id=global_id)
 
     access_id = AccessID()
     access_id.global_id     = global_id_rec
@@ -118,9 +121,14 @@ def delete_access(request):
     else:
         return HttpResponseBadRequest()
 
+    # Get the GlobalID object for the supplied global ID, creating one if
+    # necessary.
+
+    global_id_rec,created = GlobalID.objects.get_or_create(global_id=global_id)
+
     # Delete the existing access credentials for this global ID, if it exists.
 
-    AccessID.objects.filter(global_id__global_id=global_id).delete()
+    AccessID.objects.filter(global_id=global_id_rec).delete()
 
     # Tell the caller that we succeeded.
 
