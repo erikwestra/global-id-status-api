@@ -180,7 +180,7 @@ def post_status(request, global_id):
         if not isinstance(contents, dict):
             return HttpResponseBadRequest("Invalid lat/long contents")
 
-        if sorted(contents.keys()) != ["latitude", "longitude"]:
+        if sorted(contents.keys()) != ["latitude", "longitude", "type"]:
             return HttpResponseBadRequest("Invalid lat/long contents")
 
         if not isinstance(contents['latitude'], (int, float)):
