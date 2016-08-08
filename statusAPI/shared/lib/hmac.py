@@ -114,11 +114,11 @@ def check_hmac_authentication(request, access_secret):
     nonce            = headers.get("NONCE")
 
     if hmac_auth_string == None or content_md5 == None or nonce == None:
-#        logger.warn("HMAC auth failed due to missing HTTP headers.")
+#        print("HMAC auth failed due to missing HTTP headers.")
         return False
 
     if content_md5 != hashlib.md5(request.body).hexdigest():
-#        logger.warn("HMAC auth failed due to incorrect Content-MD5 value.")
+#        print("HMAC auth failed due to incorrect Content-MD5 value.")
         return False
 
     # Check that the nonce value hasn't already been used, and remember it for
@@ -132,7 +132,7 @@ def check_hmac_authentication(request, access_secret):
         existing_nonce = None
 
     if existing_nonce != None:
-#        logger.warn("HMAC auth failed because nonce value was reused.")
+#        print("HMAC auth failed because nonce value was reused.")
         return False
 
     nonce_value = NonceValue()
@@ -149,8 +149,7 @@ def check_hmac_authentication(request, access_secret):
     hmac_base64 = base64.b64encode(hmac_digest.encode("utf-8"))
 
     if hmac_auth_string != "HMAC " + hmac_base64.decode("utf-8"):
-#        logger.warn("HMAC auth failed because authorization hash " +
-#                    "doesn't match.")
+#        print("HMAC auth failed because authorization hash doesn't match.")
         return False
 
     # If we get here, the HMAC authentication succeeded.  Whew!

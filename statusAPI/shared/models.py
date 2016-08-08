@@ -137,6 +137,15 @@ class Message(models.Model):
 
 #############################################################################
 
+class LocationSession(models.Model):
+    """ An active location session.
+    """
+    id         = models.AutoField(primary_key=True)
+    global_id  = models.ForeignKey(GlobalID, related_name="+")
+    session_id = models.TextField(db_index=True)
+
+#############################################################################
+
 class NonceValueManager(models.Manager):
     """ A custom manager for the NonceValue database table.
     """
