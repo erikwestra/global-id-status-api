@@ -136,16 +136,11 @@ def post_location(request):
             if permission.matches_status_type(status_type):
                 # Create a CurrentStatusUpdateView record for this recipient,
                 # replacing the existing one if it exists.
-                try:
-                    view = CurrentStatusUpdateView.objects.get(
-                            issuing_global_id=session.global_id,
-                            recipient_global_id=permission.recipient_global_id,
-                            type=status_update_type)
-                except CurrentStatusUpdateView.DoesNotExist:
-                    view = None
 
-                if view != None:
-                    view.delete()
+                CurrentStatusUpdateView.objects.filter(
+                        issuing_global_id=session.global_id,
+                        recipient_global_id=permission.recipient_global_id,
+                        type=status_update_type).delete()
 
                 view = CurrentStatusUpdateView()
                 view.issuing_global_id   = session.global_id
